@@ -1,0 +1,36 @@
+from tkinter import *
+from tkVideoPlayer import TkinterVideo
+import os
+import time
+
+def play_video():
+    video = Toplevel()
+    video.geometry("700x500")
+    #video.attributes("-fullscreen", True) If this is enabled and line 10 is disabled, video is for some reason very slow
+    video.protocol("WM_DELETE_WINDOW", on_closing)
+
+    videoplayer = TkinterVideo(master=video, scaled=True)
+    videoplayer.load(r"my_video.mp4")
+    videoplayer.pack(expand=True, fill="both")
+    videoplayer.play()
+    
+def on_closing():
+    print("closed")
+    root.destroy()
+    remove_video()
+
+def remove_video():
+    os.remove("my_video.mp4") #Video can be deleted only, when it's already finished, cannot be closed mid playing
+    
+    
+root = Tk()
+root.title("Windows 7")
+root.geometry("300x150")
+
+label = Label(root, text ="Downgrade to Windows 7?")
+label.pack(side = TOP, pady = 10)
+
+btn = Button(root, text="Yes",command=lambda:[play_video()])
+btn.pack(pady = 10) 
+
+mainloop()
